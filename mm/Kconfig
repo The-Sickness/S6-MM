@@ -607,3 +607,21 @@ config MIN_DIRTY_THRESH_PAGES
 	  It is only effective when dirty_ratio is used. (Setting dirty_bytes
 	  disables this option.)
 	  Do not use it if you unsure.
+
+config PROCESS_RECLAIM
+	bool "Enable process reclaim"
+	depends on PROC_FS
+	default n
+	help
+	 It allows to reclaim pages of the process by /proc/pid/reclaim.
+
+	 (echo file > /proc/PID/reclaim) reclaims file-backed pages only.
+	 (echo anon > /proc/PID/reclaim) reclaims anonymous pages only.
+	 (echo all > /proc/PID/reclaim) reclaims all pages.
+
+	 (echo addr size-byte > /proc/PID/reclaim) reclaims pages in
+	 (addr, addr + size-bytes) of the process.
+
+	 Any other vaule is ignored.
+	  You can check speed with zsmalloc benchmark:
+	  https://github.com/spartacus06/zsmapbench
