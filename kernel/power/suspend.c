@@ -58,6 +58,9 @@ static void freeze_enter(void)
         cpuidle_resume();
 	wait_event(suspend_freeze_wait_head, suspend_freeze_wake);
         cpuidle_pause();
+	cpuidle_resume();
+	wait_event(suspend_freeze_wait_head, suspend_freeze_wake);
+	cpuidle_pause();
 }
 
 void freeze_wake(void)
