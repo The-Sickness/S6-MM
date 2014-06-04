@@ -354,6 +354,132 @@ static int zram_bvec_rw(struct zram *zram, struct bio_vec *bvec, u32 index,
 }
 
 static void update_position(u32 *index, int *offset, struct bio_vec *bvec)
+/*
+ * zram_bio_discard - handler on discard request
+ * @index: physical block index in PAGE_SIZE units
+ * @offset: byte offset within physical block
+ */
+static void zram_bio_discard(struct zram *zram, u32 index,
+			     int offset, struct bio *bio)
+{
+	size_t n = bio->bi_size;
+
+	/*
+	 * zram manages data in physical block size units. Because logical block
+	 * size isn't identical with physical block size on some arch, we
+	 * could get a discard request pointing to a specific offset within a
+	 * certain physical block.  Although we can handle this request by
+	 * reading that physiclal block and decompressing and partially zeroing
+	 * and re-compressing and then re-storing it, this isn't reasonable
+	 * because our intent with a discard request is to save memory.  So
+	 * skipping this logical block is appropriate here.
+	 */
+	if (offset) {
+		if (n <= (PAGE_SIZE - offset))
+			return;
+
+		n -= (PAGE_SIZE - offset);
+		index++;
+	}
+
+	while (n >= PAGE_SIZE) {
+		/*
+		 * Discard request can be large so the lock hold times could be
+		 * lengthy.  So take the lock once per page.
+		 */
+		write_lock(&zram->meta->tb_lock);
+		zram_free_page(zram, index);
+		write_unlock(&zram->meta->tb_lock);
+		index++;
+		n -= PAGE_SIZE;
+	}
+}
+
+static void zram_reset_device(struct zram *zram, bool reset_capacity)
+{
+	size_t index;
+	struct zram_meta *meta;
+
+	down_write(&zram->init_lock);
+	if (!init_done(zram)) {
+		up_write(&zram->init_lock);
+		return;
+	}
+
+	meta = zram->meta;
+	/* Free all pages that are still in this zram device */
+	for (index = 0; index < zram->disksize >> PAGE_SHIFT; index++) {
+		unsigned long handle = meta->table[index].handle;
+		if (!handle)
+			continue;
+
+		zs_free(meta->mem_pool, handle);
+	}
+
+	zcomp_destroy(zram->comp);
+	zram->max_comp_streams = 1;
+
+	zram_meta_free(zram->meta);
+	zram->meta = NULL;
+	/* Reset stats */
+	memset(&zram->stats, 0, sizeof(zram->stats));
+
+	zram->disksize = 0;
+	if (reset_capacity)
+		set_capacity(zram->disk, 0);
+	up_write(&zram->init_lock);
+}
+
+static ssize_t disksize_store(struct device *dev,
+		struct device_attribute *attr, const char *buf, size_t len)
+{
+	u64 disksize;
+	struct zcomp *comp;
+	struct zram_meta *meta;
+	struct zram *zram = dev_to_zram(dev);
+	int err;
+
+	disksize = memparse(buf, NULL);
+	if (!disksize)
+		return -EINVAL;
+
+	disksize = PAGE_ALIGN(disksize);
+	meta = zram_meta_alloc(disksize);
+	if (!meta)
+		return -ENOMEM;
+
+	comp = zcomp_create(zram->compressor, zram->max_comp_streams);
+	if (IS_ERR(comp)) {
+		pr_info("Cannot initialise %s compressing backend\n",
+				zram->compressor);
+		err = PTR_ERR(comp);
+		goto out_free_meta;
+	}
+
+	down_write(&zram->init_lock);
+	if (init_done(zram)) {
+		pr_info("Cannot change disksize for initialized device\n");
+		err = -EBUSY;
+		goto out_destroy_comp;
+	}
+
+	zram->meta = meta;
+	zram->comp = comp;
+	zram->disksize = disksize;
+	set_capacity(zram->disk, zram->disksize >> SECTOR_SHIFT);
+	up_write(&zram->init_lock);
+	return len;
+
+out_destroy_comp:
+	up_write(&zram->init_lock);
+	zcomp_destroy(comp);
+out_free_meta:
+	zram_meta_free(meta);
+	return err;
+}
+
+static ssize_t reset_store(struct device *dev,
+		struct device_attribute *attr, const char *buf, size_t len)
 {
 	if (*offset + bvec->bv_len >= PAGE_SIZE)
 		(*index)++;
