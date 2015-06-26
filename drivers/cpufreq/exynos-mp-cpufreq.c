@@ -38,6 +38,8 @@
 #include <linux/muic/muic_notifier.h>
 #endif
 
+#include <linux/sysfs_helpers.h>
+
 #include <asm/smp_plat.h>
 #include <asm/cputype.h>
 
@@ -1451,29 +1453,88 @@ inline ssize_t store_core_freq(const char *buf, size_t count,
 	return count;
 }
 
-inline ssize_t set_boot_low_freq(const char *buf, size_t count)
+static size_t get_freq_table_size(struct cpufreq_frequency_table *freq_table)
 {
-	int input;
-	unsigned int set_freq = 0;
+	size_t tbl_sz = 0;
+	int i;
 
-	if (!sscanf(buf, "%8d", &input))
+	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++)
+		tbl_sz++;
+
+	return tbl_sz;
+}
+
+static ssize_t show_volt_table(struct kobject *kobj,
+				struct attribute *attr, char *buf, int cluster)
+{
+	int i, count = 0;
+	size_t tbl_sz = 0, pr_len;
+	struct cpufreq_frequency_table *freq_table = exynos_info[cluster]->freq_table;
+
+	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++)
+		tbl_sz++;
+
+	if (tbl_sz == 0)
 		return -EINVAL;
 
-	if (exynos_info[CL_ONE]->low_boot_cpu_max_qos)
-		set_freq = exynos_info[CL_ONE]->low_boot_cpu_max_qos;
-	else
-		set_freq = PM_QOS_DEFAULT_VALUE;
+	pr_len = (size_t)((PAGE_SIZE - 2) / tbl_sz);
 
-	if (input) {
-		/* only big core limit, default 1800s */
-		pr_info("%s: low boot freq[%d], cl[%d]\n", __func__,
-					set_freq, CL_ONE);
-		pm_qos_update_request_timeout(&boot_max_qos[CL_ONE],
-					set_freq, 1800 * USEC_PER_SEC);
+	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
+		if (freq_table[i].frequency != CPUFREQ_ENTRY_INVALID)
+			count += snprintf(&buf[count], pr_len, "%d %d\n",
+					freq_table[i].frequency,
+					exynos_info[cluster]->volt_table[i]);
+	}
+
+	return count;
+}
+
+static ssize_t store_volt_table(struct kobject *kobj, struct attribute *attr,
+					const char *buf, size_t count, int cluster)
+{
+	int i, tokens, rest, target, invalid_offset;
+	struct cpufreq_frequency_table *freq_table = exynos_info[cluster]->freq_table;
+	size_t tbl_sz = get_freq_table_size(freq_table);
+	int t[tbl_sz];
+
+	invalid_offset = 0;
+
+	if ((tokens = read_into((int*)&t, tbl_sz, buf, count)) < 0)
+		return -EINVAL;
+
+	target = -1;
+	if (tokens == 2) {
+		for (i = 0; (freq_table[i].frequency != CPUFREQ_TABLE_END); i++) {
+			unsigned int freq = freq_table[i].frequency;
+			if (freq == CPUFREQ_ENTRY_INVALID)
+				continue;
+
+			if (t[0] == freq) {
+				target = i;
+				break;
+			}
+		}
+	}
+
+	mutex_lock(&cpufreq_lock);
+
+	if (tokens == 2 && target > 0) {
+		if ((rest = t[1] % CL_VOLT_STEP) != 0)
+			t[1] += CL_VOLT_STEP - rest;
+		
+		sanitize_min_max(t[1], CL_MIN_VOLT(cluster), CL_MAX_VOLT(cluster));
+		exynos_info[cluster]->volt_table[target] = t[1];
 	} else {
-		pr_info("%s: release low boot freq\n", __func__);
-		pm_qos_update_request(&boot_max_qos[CL_ONE],
-					PM_QOS_DEFAULT_VALUE);
+		for (i = 0; i < tokens; i++) {
+			while (freq_table[i + invalid_offset].frequency == CPUFREQ_ENTRY_INVALID)
+				++invalid_offset;
+
+			if ((rest = t[i] % CL_VOLT_STEP) != 0)
+				t[i] += CL_VOLT_STEP - rest;
+			
+			sanitize_min_max(t[i], CL_MIN_VOLT(cluster), CL_MAX_VOLT(cluster));
+			exynos_info[cluster]->volt_table[i + invalid_offset] = t[i];
+		}
 	}
 
  	return count;
@@ -1600,6 +1661,18 @@ static ssize_t store_cluster1_max_freq(struct kobject *kobj, struct attribute *a
 	return store_core_freq(buf, count, CL_ONE, true);
 }
 
+static ssize_t show_cluster1_volt_table(struct kobject *kobj,
+				struct attribute *attr, char *buf)
+{
+	return show_volt_table(kobj, attr, buf, CL_ONE);
+}
+
+static ssize_t store_cluster1_volt_table(struct kobject *kobj, struct attribute *attr,
+					const char *buf, size_t count)
+{
+	return store_volt_table(kobj, attr, buf, count, CL_ONE);
+}
+
 static ssize_t show_cluster0_freq_table(struct kobject *kobj,
 			     struct attribute *attr, char *buf)
 {
@@ -1636,28 +1709,36 @@ static ssize_t store_cluster0_max_freq(struct kobject *kobj, struct attribute *a
 	return store_core_freq(buf, count, CL_ZERO, true);
 }
 
-static ssize_t store_boot_low_freq(struct kobject *kobj, struct attribute *attr,
+static ssize_t show_cluster0_volt_table(struct kobject *kobj,
+				struct attribute *attr, char *buf)
+{
+	return show_volt_table(kobj, attr, buf, CL_ZERO);
+}
+
+static ssize_t store_cluster0_volt_table(struct kobject *kobj, struct attribute *attr,
 					const char *buf, size_t count)
 {
-	return set_boot_low_freq(buf, count);
+	return store_volt_table(kobj, attr, buf, count, CL_ZERO);
 }
 
 define_one_global_ro(cluster1_freq_table);
 define_one_global_rw(cluster1_min_freq);
 define_one_global_rw(cluster1_max_freq);
+define_one_global_rw(cluster1_volt_table);
 define_one_global_ro(cluster0_freq_table);
 define_one_global_rw(cluster0_min_freq);
 define_one_global_rw(cluster0_max_freq);
-define_one_global_rw(boot_low_freq);
+define_one_global_rw(cluster0_volt_table);
 
 static struct attribute *mp_attributes[] = {
 	&cluster1_freq_table.attr,
 	&cluster1_min_freq.attr,
 	&cluster1_max_freq.attr,
+	&cluster1_volt_table.attr,
 	&cluster0_freq_table.attr,
 	&cluster0_min_freq.attr,
 	&cluster0_max_freq.attr,
-	&boot_low_freq.attr,
+	&cluster0_volt_table.attr,
 	NULL
 };
 
