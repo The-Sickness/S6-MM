@@ -1065,6 +1065,10 @@ static enum hotplug_cmd diagnose_condition(void)
 	normal_min_freq = cpufreq_interactive_get_hispeed_freq(0);
 	if (!normal_min_freq)
 		normal_min_freq = NORMALMIN_FREQ;
+#elif defined(CONFIG_CPU_FREQ_GOV_CAFACTIVE)
+	normal_min_freq = cpufreq_cafactive_get_hispeed_freq(0);
+	if (!normal_min_freq)
+		normal_min_freq = NORMALMIN_FREQ;
 #else
 	normal_min_freq = NORMALMIN_FREQ;
 #endif
