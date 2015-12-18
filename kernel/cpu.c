@@ -375,6 +375,14 @@ int __ref cpu_down(unsigned int cpu)
 	cpu_core_smp_status[cpu] = 0;
 	cpu_maps_update_begin();
 
+	// AP: Keep CPU cores 0 and 4 always on
+	if ((cpu == 0) || (cpu == 4))
+	{
+		err = -EBUSY;
+		goto out;
+	}
+
+	
 	if (cpu_hotplug_disabled) {
 		err = -EBUSY;
 		goto out;
@@ -387,6 +395,26 @@ out:
 	return err;
 }
 EXPORT_SYMBOL(cpu_down);
+
+// this cpu down function also allows cpu cores 0 and 4 to be shut down
+int __ref cpu_down_nocheck(unsigned int cpu)
+{
+	int err;
+
+	cpu_maps_update_begin();
+
+	if (cpu_hotplug_disabled) {
+		err = -EBUSY;
+		goto out;
+	}
+
+	err = _cpu_down(cpu, 0);
+
+out:
+	cpu_maps_update_done();
+	return err;
+}
+EXPORT_SYMBOL(cpu_down_nocheck);
 #endif /*CONFIG_HOTPLUG_CPU*/
 
 /* Requires cpu_add_remove_lock to be held */
