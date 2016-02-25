@@ -78,6 +78,13 @@ static int hpm_freq_table[] = {
 static gpu_attribute gpu_config_attributes[] = {
 	{GPU_MAX_CLOCK, 852},
 	{GPU_MAX_CLOCK_LIMIT, 852},
+	/* 772, 700, 600, 544, 420, 350, 266, 160, 100 */
+	3, 3, 3, 3, 2, 2, 2, 2, 2,
+};
+
+static gpu_attribute gpu_config_attributes[] = {
+	{GPU_MAX_CLOCK, 772},
+	{GPU_MAX_CLOCK_LIMIT, 700},
 	{GPU_MIN_CLOCK, 100},
 	{GPU_DVFS_START_CLOCK, 100},
 	{GPU_DVFS_BL_CONFIG_CLOCK, 100},
