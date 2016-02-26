@@ -1935,6 +1935,23 @@ show_gov_pol_sys(cpu_util);
 #ifdef CONFIG_PMU_COREMEM_RATIO
 show_gov_pol_sys(region_time_in_state);
 #endif
+
+#define gov_sys_attr_ro(_name)						\
+static struct global_attr _name##_gov_sys =				\
+__ATTR(_name, 0440, show_##_name##_gov_sys, store_##_name##_gov_sys)
+
+#define gov_pol_attr_ro(_name)						\
+static struct freq_attr _name##_gov_pol =				\
+__ATTR(_name, 0440, show_##_name##_gov_pol, store_##_name##_gov_pol)
+
+#define gov_sys_pol_attr_ro(_name)					\
+	gov_sys_attr_ro(_name);						\
+	gov_pol_attr_ro(_name)
+
+gov_sys_pol_attr_ro(target_loads);
+gov_sys_pol_attr_ro(above_hispeed_delay);
+gov_sys_pol_attr_ro(go_hispeed_load);
+
 #define gov_sys_attr_rw(_name)						\
 static struct global_attr _name##_gov_sys =				\
 __ATTR(_name, 0664, show_##_name##_gov_sys, store_##_name##_gov_sys)
@@ -1947,10 +1964,7 @@ __ATTR(_name, 0664, show_##_name##_gov_pol, store_##_name##_gov_pol)
 	gov_sys_attr_rw(_name);						\
 	gov_pol_attr_rw(_name)
 
-gov_sys_pol_attr_rw(target_loads);
-gov_sys_pol_attr_rw(above_hispeed_delay);
 gov_sys_pol_attr_rw(hispeed_freq);
-gov_sys_pol_attr_rw(go_hispeed_load);
 gov_sys_pol_attr_rw(min_sample_time);
 gov_sys_pol_attr_rw(timer_rate);
 gov_sys_pol_attr_rw(timer_slack);
