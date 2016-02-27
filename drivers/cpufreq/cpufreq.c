@@ -34,6 +34,14 @@
 
 #include <trace/events/power.h>
 
+unsigned int GLOBALKT_MIN_FREQ_LIMIT[] = { 400000, 400000, 400000, 400000, 800000, 800000, 800000, 800000 };
+unsigned int GLOBALKT_MAX_FREQ_LIMIT[] = { 1500000, 1500000, 1500000, 1500000, 2100000, 2100000, 2100000, 2100000 };
+unsigned int CPUINFO_MIN_FREQ_LIMIT[] = { 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000 };
+unsigned int CPUINFO_MAX_FREQ_LIMIT[] = { 1600000, 1600000, 1600000, 1600000, 2400000, 2400000, 2400000, 2400000 };
+unsigned int main_cpufreq_control[8];
+unsigned int vfreq_lock = 0;
+static bool vfreq_lock_tempOFF = false;
+
 /**
  * The "cpufreq driver" - the arch- or hardware-dependent low
  * level driver of CPUFreq support, and its spinlock. This lock
@@ -1476,7 +1484,7 @@ int __cpufreq_driver_target(struct cpufreq_policy *policy,
 
 	if (cpufreq_disabled())
 		return -ENODEV;
-
+	
 	/* Make sure that target_freq is within supported range */
 	if (target_freq > policy->max)
 		target_freq = policy->max;

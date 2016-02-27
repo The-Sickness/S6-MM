@@ -2157,6 +2157,9 @@ void ktoonservative_screen_is_on(bool state, int cpu)
 			{
 				set_core_flag_down(cpuloop, 1);
 				force_cores_down[cpuloop] = 1;
+			if ((hotplug_cpu_lockout[cpuloop] == 2 || tunables->no_extra_cores_screen_off) && !main_cpufreq_control[cpuloop])
+			{
+				set_core_flag_down(cpuloop, 1);
 				need_to_queue_down = true;
 			}
 		}
@@ -2166,6 +2169,7 @@ void ktoonservative_screen_is_on(bool state, int cpu)
 		{
 			queue_work_on(0, dbs_wq, &hotplug_offline_work);
 		}
+			queue_work_on(0, dbs_wq, &hotplug_offline_work);
 
 		boost_the_gpu(tunables->touch_boost_gpu, false);
 		stored_sampling_rate = tunables->sampling_rate;
@@ -2191,6 +2195,8 @@ void ktoonservative_boostpulse(bool boost_for_button)
 	if (!screen_is_on && !boost_for_button)
 		return;
 		
+	struct cpufreq_ktoonservative_tunables *tunables =
+		pcpu->policy->governor_data;
 	if (!boostpulse_relayf)
 	{
 		if (tunables->touch_boost_gpu > 0)  // && screen_is_on
@@ -2272,6 +2278,11 @@ static void __cpuinit hotplug_offline_work_fn(struct work_struct *work)
 			{
 				if (debug_is_enabled)
 					pr_alert("BOOST CORES DOWN WORK FUNC %d - %d - %d - %d - %d - %d - %d - %d\n", cpu, hotplug_cpu_single_down[1], hotplug_cpu_single_down[2], hotplug_cpu_single_down[3], hotplug_cpu_single_down[4], hotplug_cpu_single_down[5], hotplug_cpu_single_down[6], hotplug_cpu_single_down[7]);
+		if (likely(cpu_online(cpu) && (cpu))) {
+			if (hotplug_cpu_single_down[cpu] && !hotplug_cpu_single_up[cpu] && !main_cpufreq_control[cpu])
+			{
+				if (debug_is_enabled)
+					pr_alert("BOOST CORES DOWN WORK FUNC %d - %d - %d - %d\n", cpu, hotplug_cpu_single_down[1], hotplug_cpu_single_down[2], hotplug_cpu_single_down[3]);
 				cpu_down(cpu);
 				set_core_flag_down(cpu, 0);
 			}
@@ -2299,6 +2310,12 @@ static void __cpuinit hotplug_online_work_fn(struct work_struct *work)
 					cpu_up(cpu);
 					set_core_flag_up(cpu, 0);
 				}
+			if (hotplug_cpu_single_up[cpu] && !hotplug_cpu_single_down[cpu])
+			{
+				if (debug_is_enabled)
+					pr_alert("BOOST CORES UP WORK FUNC %d - %d - %d - %d - %d - %d - %d - %d\n", cpu, hotplug_cpu_single_up[1], hotplug_cpu_single_up[2], hotplug_cpu_single_up[3], hotplug_cpu_single_up[4], hotplug_cpu_single_up[5], hotplug_cpu_single_up[6], hotplug_cpu_single_up[7]);
+				cpu_up(cpu);
+				set_core_flag_up(cpu, 0);
 			}
 		}
 		if (hotplug_cpu_single_down[cpu])
@@ -2839,6 +2856,7 @@ struct cpufreq_governor cpufreq_gov_ktoonservative = {
 static int __init cpufreq_gov_dbs_init(void)
 {
 	dbs_wq = alloc_workqueue("ktoonservative_dbs_wq", WQ_HIGHPRI | WQ_UNBOUND, 0);
+	dbs_wq = alloc_workqueue("ktoonservative_dbs_wq", WQ_HIGHPRI | WQ_CPU_INTENSIVE, 0);
 	if (!dbs_wq) {
 		printk(KERN_ERR "Failed to create ktoonservative_dbs_wq workqueue\n");
 		return -EFAULT;

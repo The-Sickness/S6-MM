@@ -452,7 +452,6 @@ config CPU_FREQ_GOV_HYPER
 	'hyper' - A tweaked "ondemand" based smart and smooth optimized governor!
 	If in doubt, say N.
 
-
 config CPU_FREQ_GOV_INTEREXTREM
 	tristate "'interextrem' cpufreq policy governor"
 	help
