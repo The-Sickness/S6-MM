@@ -163,9 +163,10 @@ asmlinkage void __cpuinit secondary_start_kernel(void)
 	/*
 	 * Enable GIC and timers.
 	 */
-	notify_cpu_starting(cpu);
 
 	smp_store_cpu_info(cpu);
+
+	notify_cpu_starting(cpu);
 
 	/*
 	 * Log the CPU info before it is marked online and might get read.
