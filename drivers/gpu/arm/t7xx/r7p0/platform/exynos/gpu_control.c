@@ -18,6 +18,7 @@
 #include <mali_kbase.h>
 
 #include <linux/pm_qos.h>
+#include <linux/cpufreq_kt.h>
 #include <mach/pm_domains.h>
 
 #include "mali_kbase_platform.h"
