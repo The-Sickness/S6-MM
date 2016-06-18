@@ -2,7 +2,6 @@
 #include <linux/cpu.h>
 
 extern bool screen_is_on;
-<<<<<<< HEAD
 extern unsigned int GLOBALKT_MIN_FREQ_LIMIT[];
 extern unsigned int GLOBALKT_MAX_FREQ_LIMIT[];
 extern unsigned int CPUINFO_MIN_FREQ_LIMIT[];
@@ -24,5 +23,4 @@ extern unsigned int ktoonservative_hp_active;
 extern void ktoonservative_boostpulse(bool boost_for_button);
 extern void ktoonservative_screen_is_on(bool state, int cpu);
 extern void cpufreq_screen_is_on(bool state);
-=======
->>>>>>> d6d3309... cpufreq: Add kt files and build it
+
