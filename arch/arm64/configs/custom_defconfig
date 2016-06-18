@@ -3659,7 +3659,7 @@ CONFIG_STAGING=y
 # CONFIG_IIO_GPIO_TRIGGER is not set
 # CONFIG_IIO_SYSFS_TRIGGER is not set
 # CONFIG_IIO_SIMPLE_DUMMY is not set
-# CONFIG_ZRAM is not set
+# CONFIG_ZRAM=y
 # CONFIG_FB_SM7XX is not set
 # CONFIG_CRYSTALHD is not set
 # CONFIG_FB_XGI is not set
