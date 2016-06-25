@@ -153,14 +153,14 @@ __memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
 }
 
 /**
- * __memblock_find_range_top_down - find free area utility, in top-down
+ *  memblock_find_in_range_node - find free area in given range and node
  * @start: start of candidate range
  * @end: end of candidate range, can be %MEMBLOCK_ALLOC_{ANYWHERE|ACCESSIBLE}
  * @size: size of free area to find
  * @align: alignment of free area to find
  * @nid: nid of the free area to find, %MAX_NUMNODES for any node
  *
- * Utility called from memblock_find_in_range_node(), find free area top-down.
+ * Find @size free area aligned to @align in the specified range and node.
  *
  * When allocation direction is bottom-up, the @start should be greater
  * than the end of the kernel image. Otherwise, it will be trimmed. The
@@ -173,9 +173,9 @@ __memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
  * RETURNS:
  * Found address on success, 0 on failure.
  */
-static phys_addr_t __init_memblock
-__memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
-			       phys_addr_t size, phys_addr_t align, int nid)
+phys_addr_t __init_memblock memblock_find_in_range_node(phys_addr_t start,
+ 					phys_addr_t end, phys_addr_t size,
+ 					phys_addr_t align, int nid)
 {
 	int ret;
 	phys_addr_t kernel_end;
@@ -195,9 +195,7 @@ __memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
 	 */
 	if (memblock_bottom_up() && end > kernel_end) {
 		phys_addr_t bottom_up_start;
-	for_each_free_mem_range_reverse(i, nid, &this_start, &this_end, NULL) {
-		this_start = clamp(this_start, start, end);
-		this_end = clamp(this_end, start, end);
+	
 
 		/* make sure we will allocate above the kernel */
 		bottom_up_start = max(start, kernel_end);
@@ -223,44 +221,7 @@ __memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
 	}
 
 	return __memblock_find_range_top_down(start, end, size, align, nid);
-	return 0;
-}
 
-/**
- * memblock_find_in_range_node - find free area in given range and node
- * @start: start of candidate range
- * @end: end of candidate range, can be %MEMBLOCK_ALLOC_{ANYWHERE|ACCESSIBLE}
- * @size: size of free area to find
- * @align: alignment of free area to find
- * @nid: nid of the free area to find, %MAX_NUMNODES for any node
- *
- * Find @size free area aligned to @align in the specified range and node.
- *
- * When allocation direction is bottom-up, the @start should be greater
- * than the end of the kernel image. Otherwise, it will be trimmed. The
- * reason is that we want the bottom-up allocation just near the kernel
- * image so it is highly likely that the allocated memory and the kernel
- * will reside in the same node.
- *
- * If bottom-up allocation failed, will try to allocate memory top-down.
- *
- * RETURNS:
- * Found address on success, 0 on failure.
- */
-phys_addr_t __init_memblock memblock_find_in_range_node(phys_addr_t start,
-					phys_addr_t end, phys_addr_t size,
-					phys_addr_t align, int nid)
-{
-	int ret;
-	phys_addr_t kernel_end;
-
-	/* pump up @end */
-	if (end == MEMBLOCK_ALLOC_ACCESSIBLE)
-		end = memblock.current_limit;
-
-	/* avoid allocating the first page */
-	start = max_t(phys_addr_t, start, PAGE_SIZE);
-	end = max(start, end);
 	kernel_end = __pa_symbol(_end);
 
 	/*
