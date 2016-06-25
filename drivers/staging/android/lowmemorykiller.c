@@ -103,7 +103,6 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	int other_file = global_page_state(NR_FILE_PAGES) -
 						global_page_state(NR_SHMEM);
 	struct reclaim_state *reclaim_state = current->reclaim_state;
-	struct sysinfo si;
 
 #ifdef CONFIG_ZSWAP
 	/* to prevent other_file underflow and then be negative */
@@ -113,17 +112,13 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		other_file = 0;
 #endif
 
-	si_meminfo(&si);
-
-	other_free += other_file;
-
 	if (lowmem_adj_size < array_size)
 		array_size = lowmem_adj_size;
 	if (lowmem_minfree_size < array_size)
 		array_size = lowmem_minfree_size;
 	for (i = 0; i < array_size; i++) {
 		minfree = lowmem_minfree[i];
-		if (other_free < minfree) {
+		if (other_free < minfree && other_file < minfree) {
 			min_score_adj = lowmem_adj[i];
 			break;
 		}
