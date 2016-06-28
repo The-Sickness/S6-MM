@@ -8,6 +8,7 @@
 #
 CONFIG_ARM64_ERRATUM_845719=y
 CONFIG_HOTPLUG_THREAD_STOP=y
+CONFIG_CRYPTO_CRC32_ARM64=y
 #
 ################################
 
