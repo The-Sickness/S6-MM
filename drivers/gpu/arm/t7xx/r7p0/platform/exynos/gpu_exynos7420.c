@@ -72,7 +72,7 @@ static int mif_min_table[] = {
 
 static int hpm_freq_table[] = {
 	/* 852, 772, 700, 600, 544, 420, 350, 266, 160, 100 */
-	3, 3, 3, 3, 3, 2, 2, 2, 2, 2,
+	3, 3, 3, 3, 3, 2, 2, 2, 2, 1,
 };
 
 static gpu_attribute gpu_config_attributes[] = {
@@ -94,8 +94,8 @@ static gpu_attribute gpu_config_attributes[] = {
 	{GPU_GOVERNOR_TABLE_SIZE_INTERACTIVE, GPU_DVFS_TABLE_LIST_SIZE(gpu_dvfs_table_default)},
 	{GPU_GOVERNOR_TABLE_SIZE_STATIC, GPU_DVFS_TABLE_LIST_SIZE(gpu_dvfs_table_default)},
 	{GPU_GOVERNOR_TABLE_SIZE_BOOSTER, GPU_DVFS_TABLE_LIST_SIZE(gpu_dvfs_table_default)},
-	{GPU_GOVERNOR_INTERACTIVE_HIGHSPEED_CLOCK, 420},
-	{GPU_GOVERNOR_INTERACTIVE_HIGHSPEED_LOAD, 95},
+	{GPU_GOVERNOR_INTERACTIVE_HIGHSPEED_CLOCK, 700},
+	{GPU_GOVERNOR_INTERACTIVE_HIGHSPEED_LOAD, 90},
 	{GPU_GOVERNOR_INTERACTIVE_HIGHSPEED_DELAY, 0},
 	{GPU_DEFAULT_VOLTAGE, 900000},
 	{GPU_COLD_MINIMUM_VOL, 0},
@@ -106,7 +106,7 @@ static gpu_attribute gpu_config_attributes[] = {
 	{GPU_TEMP_THROTTLING3, 420},
 	{GPU_TEMP_THROTTLING4, 266},
 	{GPU_TEMP_TRIPPING, 266},
-	{GPU_POWER_COEFF, 443}, /* all core on param */
+	{GPU_POWER_COEFF, 900}, /* all core on param */
 	{GPU_DVFS_TIME_INTERVAL, 5},
 	{GPU_DEFAULT_WAKEUP_LOCK, 1},
 	{GPU_BUS_DEVFREQ, 1},
@@ -117,7 +117,7 @@ static gpu_attribute gpu_config_attributes[] = {
 #ifdef MALI_SEC_HWCNT
 	{GPU_HWCNT_PROFILE, 0},
 	{GPU_HWCNT_GATHERING, 1},
-	{GPU_HWCNT_POLLING_TIME, 90},
+	{GPU_HWCNT_POLLING_TIME, 100},
 	{GPU_HWCNT_UP_STEP, 3},
 	{GPU_HWCNT_DOWN_STEP, 2},
 	{GPU_HWCNT_GPR, 1},
@@ -128,8 +128,8 @@ static gpu_attribute gpu_config_attributes[] = {
 	{GPU_HWCNT_CHOOSE_L3_CACHE , 0},
 	{GPU_HWCNT_CHOOSE_MMU_L2 , 0},
 #endif
-	{GPU_RUNTIME_PM_DELAY_TIME, 50},
-	{GPU_DVFS_POLLING_TIME, 30},
+	{GPU_RUNTIME_PM_DELAY_TIME, 30},
+	{GPU_DVFS_POLLING_TIME, 15},
 	{GPU_PMQOS_INT_DISABLE, 1},
 	{GPU_PMQOS_MIF_MAX_CLOCK, 1464000},
 	{GPU_PMQOS_MIF_MAX_CLOCK_BASE, 700},
