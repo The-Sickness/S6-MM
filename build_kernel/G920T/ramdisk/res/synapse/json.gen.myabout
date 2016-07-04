@@ -1,0 +1,57 @@
+#!/system/bin/sh
+
+cat << CTAG
+{
+    name:"ABOUT",
+    elements:[
+	{ SLiveLabel:{
+		description:"\n",
+		refresh:10000000,
+		action:"echo Hello"
+	}},
+	{ SLiveLabel:{
+		refresh:10000000,
+		style:"bold",
+		action:"echo Welcome to Sickness kernel !"
+	}},
+	{ SLiveLabel:{
+		refresh:10000000,
+		action:"echo by"
+	}},
+	{ SLiveLabel:{
+		refresh:10000000,
+		style:"bold",
+		action:"echo tvm2487"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"PayPal Donation",
+		action:"am start -a android.intent.action.VIEW -d http://forum.xda-developers.com/donatetome.php?u=3511708 > /dev/null;
+		echo Opening browser...;"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"Sickness kernel thread @ XDA-Developers",
+		action:"am start -a android.intent.action.VIEW -d None Yet > /dev/null;
+		echo Opening browser...;"
+	}},
+	{ SSpacer:{
+		height:2
+	}},
+	{ SPane:{
+		title:"Up Time:"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SLiveLabel:{
+		refresh:1500,
+		action:"live LiveUpTime"
+	}},
+    ]
+}
+CTAG
