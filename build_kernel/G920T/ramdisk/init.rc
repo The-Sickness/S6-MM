@@ -1617,7 +1617,7 @@ on property:service.vpnclientd.enable=0
 	class late_start
 
 # Call Post-init script
-service sick-init /system/sbin/sick.sh
+service sick-init /sbin/sick.sh
     class main
     user root
     oneshot
