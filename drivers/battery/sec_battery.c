@@ -12,12 +12,6 @@
 #include <linux/battery/sec_battery.h>
 #include <linux/sec_debug.h>
 
-static unsigned int STORE_MODE_CHARGING_MAX = 100;
-static unsigned int STORE_MODE_CHARGING_MIN = 95;
-
-module_param_named(store_mode_max, STORE_MODE_CHARGING_MAX, uint, S_IWUSR | S_IRUGO);
-module_param_named(store_mode_min, STORE_MODE_CHARGING_MIN, uint, S_IWUSR | S_IRUGO);
-
 const char *charger_chip_name;
 
 bool sleep_mode = false;
