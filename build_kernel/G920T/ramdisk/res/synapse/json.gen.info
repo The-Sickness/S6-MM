@@ -6,21 +6,21 @@ cat << CTAG
     elements:[
 	{ SPane:{
 		title:"Kernel Build by",
-		description:"<a href='http://forum.xda-developers.com/member.php?u=5184047'>tvm2487</a>."
+		description:"<a href='http://forum.xda-developers.com/member.php?u=4921688'>The Sickness</a>."
 	}},
 	{ SSpacer:{
 		height:1
 	}},
 	{ SPane:{
 		title:"Kernel Thread",
-		description:"<a href='None Yet'>XDA</a>"
+		description:"<a href='http://forum.xda-developers.com/tmobile-galaxy-s6/orig-development/kernels-twisted-kernel-6-0-1-mm-5-11-16-t3377283'>XDA</a>"
 	}},
 	{ SSpacer:{
 		height:1
 	}},
 	{ SPane:{
 		title:"Source",
-		description:"Modified & compiled from Samsung OSRC: <a href='https://github.com/Twisted-Kernel/S6-MM'>GitHub</a>."
+		description:"Modified & compiled from Samsung OSRC: <a href='https://github.com/The-Sickness/S6-MM'>GitHub</a>."
 	}},
 	{ SSpacer:{
 		height:1
@@ -38,7 +38,7 @@ cat << CTAG
 		title:"NO Thanks to"
 	}},
 	{ SDescription:{
-		description:"All Trolls that take exception to my matter of fact approach !! If you can't be bothered to RTFM, then don't bother posting, get it...<a href=''></a>"
+		description:"All haters...<a href=''></a>"
 	}},
 	{ SSpacer:{
 		height:1
