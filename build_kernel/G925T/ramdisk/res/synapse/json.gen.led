@@ -1,0 +1,95 @@
+#!/system/bin/sh
+
+cat << CTAG
+{
+    name:LED,
+    elements:[
+	{ SPane:{
+		title:"LED"
+	}},
+	{ SOptionList:{
+		title:"Enable LED Notifications",
+		description:"Enable or disable all LED notifications ! Default is Enabled.\n",
+		default:0,
+		action:"generic /sys/class/sec/led/led_always_disable",
+		values:{
+			0:"Enabled", 1:"Disable"
+		}
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"LED Fade-in/out time period",
+		description:"Control LED fade-in/out time period for missed notifications.",
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SDescription:{
+		description:"NOTE: 3rd party apps may override controls."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SOptionList:{
+		title:"LED Fade Control",
+		description:"Default is Disabled.\n",
+		default:0,
+		action:"generic /sys/class/sec/led/led_fade",
+		values:{
+			0:"Disabled", 1:"Enabled"
+		}
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SSeekBar:{
+		title:"Fade-in",
+		description:"Sets the time period of the rising slope. Default is 800.\n",
+		unit:" ms",
+		min:100,
+		max:2000,
+		step:100,
+		default:$(cat /sys/class/sec/led/led_fade_time_up),
+		action:"generic /sys/class/sec/led/led_fade_time_up"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SSeekBar:{
+		title:"Fade-out",
+		description:"Sets the time period of the falling slope. Default is 800.\n",
+		unit:" ms",
+		min:100,
+		max:2000,
+		step:100,
+		default:$(cat /sys/class/sec/led/led_fade_time_down),
+		action:"generic /sys/class/sec/led/led_fade_time_down"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Test"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"Test Notification",
+		action:"led 3"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"Stop Notification",
+		action:"led 0"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+    ]
+}
+CTAG
