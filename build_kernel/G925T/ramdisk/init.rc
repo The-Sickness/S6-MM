@@ -749,8 +749,8 @@ on boot
     export MC_AUTH_TOKEN_PATH /efs
 
     # Assume SMP uses shared cpufreq policy for all CPUs
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown root root /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 0640 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/timed_output/vibrator/intensity		
