@@ -82,7 +82,7 @@ fi;
 
 # G925T
 if [ "$TARGET" = "G925T" ] ; then
-	export KERNEL_CONFIG="custom-zeroltetmo_defconfig";
+	export KERNEL_CONFIG="exynos7420-zerolte_tmo_defconfig";
 fi;
 
 # build script
