@@ -1616,8 +1616,8 @@ on property:service.vpnclientd.enable=0
 	service reactived /system/bin/reactived
 	class late_start
  
-# Sickness.Sh Activation 
-service sickness-init /sbin/sickness.sh
+# Sick.Sh Activation 
+service sickness-init /sbin/sick.sh
     class core
     user root
     oneshot
