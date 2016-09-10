@@ -2,6 +2,21 @@
 # Automatically generated file; DO NOT EDIT.
 # Linux/arm64 3.10.101 Kernel Configuration
 #
+
+#####                      #####
+################################
+#
+CONFIG_ARM64_ERRATUM_845719=y
+CONFIG_HOTPLUG_THREAD_STOP=y
+CONFIG_CRYPTO_CRC32_ARM64=y
+CONFIG_RESTRICT_ROOTFS_SLAVE=y
+CONFIG_TOUCHSCREEN_SWEEP2WAKE=y
+CONFIG_TOUCHSCREEN_PREVENT_SLEEP=y
+CONFIG_DYNAMIC_FSYNC=y
+CONFIG_DYNAMIC_PAGE_WRITEBACK=y
+#
+################################
+
 CONFIG_ARM64=y
 CONFIG_64BIT=y
 CONFIG_ARCH_PHYS_ADDR_T_64BIT=y
