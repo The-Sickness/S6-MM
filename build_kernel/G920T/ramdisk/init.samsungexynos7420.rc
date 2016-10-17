@@ -257,8 +257,8 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_cluster0_min_freq
 
     # Assume HMP uses shared cpufreq policy for all LITTLE CPUs
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+     chown root root /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+     chmod 0640 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 
     chown system system sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_max_freq
     chmod 0660 sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_max_freq
@@ -319,8 +319,8 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_cluster0_min_freq
 
     # Assume HMP uses shared cpufreq policy for big CPUs
-    chown system system /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    chown root root /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    chmod 0640 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
 
     # LITTLE cluster high load
     chown system system /sys/class/sec/sec_slow/timer_rate
