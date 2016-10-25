@@ -126,7 +126,7 @@ on post-fs-data
 #Private Mode
     mkdir /data/privatemode 0770 system system
     chown system system /data/privatemode
-   # restorecon /data/privatemode
+    restorecon /data/privatemode
 
 #NFC : create data/nfc for nv storage
     mkdir /data/nfc 0700 nfc nfc
@@ -257,8 +257,8 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_cluster0_min_freq
 
     # Assume HMP uses shared cpufreq policy for all LITTLE CPUs
-     chown root root /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-     chmod 0640 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 
     chown system system sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_max_freq
     chmod 0660 sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_max_freq
@@ -319,8 +319,8 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_cluster0_min_freq
 
     # Assume HMP uses shared cpufreq policy for big CPUs
-    chown root root /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    chmod 0640 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
 
     # LITTLE cluster high load
     chown system system /sys/class/sec/sec_slow/timer_rate
@@ -725,7 +725,7 @@ service prepare_param /system/bin/prepare_param.sh /dev/block/platform/15570000.
     class core
     user root
     group root
-   # seclabel u:r:prepare_param:s0
+    seclabel u:r:prepare_param:s0
     oneshot
 
 
@@ -744,7 +744,7 @@ service fingerprintd /system/bin/fingerprintd
 # Set watchdog timer to 30 seconds and pet it every 10 seconds to get a 20 second margin
 service watchdogd /sbin/watchdogd 10 20
     class core
-   # seclabel u:r:watchdogd:s0
+    seclabel u:r:watchdogd:s0
 
 # on userdebug and eng builds, enable kgdb on the serial console
 on property:ro.debuggable=1
@@ -858,7 +858,7 @@ service rtc_log /system/bin/rtc_log.sh
     class main
     user system
     group system
-   # seclabel u:r:rtc_log:s0
+    seclabel u:r:rtc_log:s0
     oneshot
 
 # sem_daemon

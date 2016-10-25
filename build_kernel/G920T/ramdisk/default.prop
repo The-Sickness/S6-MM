@@ -52,10 +52,9 @@ ro.securestorage.knox=false
 ro.securestorage.support=false
 ro.security.mdpp.ux=Disabled
 wlan.wfd.hdcp=disable
-
 #
 # BOOTIMAGE_BUILD_PROPERTIES
 #
-ro.bootimage.build.date=Fri Apr 1 10:53:31 KST 2016
-ro.bootimage.build.date.utc=1459475611
-ro.bootimage.build.fingerprint=samsung/zerofltetmo/zerofltetmo:6.0.1/MMB29K/G920TUVU3EPD1:user/test-keys
+ro.bootimage.build.date=Fri Aug 5 15:52:49 KST 2016
+ro.bootimage.build.date.utc=1470379969
+ro.bootimage.build.fingerprint=samsung/zerofltetmo/zerofltetmo:6.0.1/MMB29K/G920TUVS4EPH2:user/test-keys

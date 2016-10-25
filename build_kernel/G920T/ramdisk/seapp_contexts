@@ -52,6 +52,7 @@ user=_app seinfo=aasa_platform domain=aasa_platform_app type=app_data_file level
 user=_app seinfo=vmware domain=vmware_app type=app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=com.expway.embmsserver* domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=com.jio.emiddleware domain=filtered_untrusted_app type=app_data_file levelFrom=user
+user=_app seinfo=Reliance_Jio domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=spr_ext name=com.kineto.smartwifi domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=trusted_dmb name=com.omnitel* domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=com.visionobjects.resourcemanager domain=filtered_untrusted_app type=filtered_app_data_file levelFrom=user

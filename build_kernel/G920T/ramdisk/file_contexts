@@ -569,6 +569,7 @@
 /system/bin/mcStarter                           u:object_r:mcStarter_exec:s0
 /system/bin/fstman                              u:object_r:fstman_exec:s0
 /system/vendor/bin/mdtp_service                 u:object_r:mdtpdaemon_exec:s0
+/system/vendor/bin/mdtpd                 u:object_r:mdtpdaemon_exec:s0
 /system/bin/tloc_daemon                         u:object_r:tlocd_exec:s0
 
 ###################################
@@ -882,7 +883,14 @@
 #############################
 # productinfo files
 #
-/productinfo(/.*)?	u:object_r:prod_file:s0
+/productinfo(/.*)?      u:object_r:prod_file:s0
+#############################
+# systeminfo files
+#
+/systeminfo(/.*)?       u:object_r:prod_file:s0
+#############################
+# device files
+#
 #SEC remove: /dev/mali0		u:object_r:gpu_device:s0
 /dev/spipe_lte1         u:object_r:spipe_device:s0
 /dev/spipe_w4           u:object_r:audio_device:s0
@@ -904,67 +912,103 @@
 /dev/sprd_coda7l        u:object_r:video_device:s0
 /dev/sprd_vpp           u:object_r:video_device:s0
 /dev/sprd_jpg           u:object_r:graphics_device:s0
+
 /dev/sdiag_lte          u:object_r:slog_device:s0
 /dev/slog_lte           u:object_r:slog_device:s0
+
+/dev/iq_mem             u:object_r:slog_device:s0
 #SEC remove: /dev/ttyGS[0-9]         u:object_r:serial_device:s0
 /dev/stty_w0            u:object_r:tty_device:s0
 /dev/stty_w[0-9]*       u:object_r:radio_device:s0
 /dev/vser               u:object_r:serial_device:s0
 
 /dev/sttybt0            u:object_r:hci_attach_dev:s0
+/dev/autotst 		u:object_r:autotest_device:s0
 
 
 #SEC remove: /dev/socket/rild2        u:object_r:rild_socket:s0
 #SEC remove: /dev/socket/rild3        u:object_r:rild_socket:s0
 /dev/socket/srtserver    u:object_r:srt_socket:s0
 
-
-/dev/stty_w12            u:object_r:tty_device:s0
-/dev/stty_lte12          u:object_r:tty_device:s0
-/dev/stty_td12           u:object_r:tty_device:s0
-/dev/stty_lte31          u:object_r:tty_device:s0
-/dev/stty_lte[0-9]       u:object_r:radio_device:s0
-/dev/stty_lte10          u:object_r:radio_device:s0
-/dev/stty_lte11          u:object_r:tty_device:s0
+/dev/stty_td[0-9]*       u:object_r:tty_device:s0
+/dev/stty_lte[0-9]*      u:object_r:tty_device:s0
 
 /dev/Trout_FM            u:object_r:audio_device:s0
-#SEC removed: /dev/pipe                u:object_r:audio_device:s0
-/dev/sprd_efuse_otp      u:object_r:efuse_device:s0
-#SEC remove: /dev/block/mmcblk0p2     u:object_r:mmcblk_device:s0
-#SEC remove: /dev/block/mmcblk0p3     u:object_r:mmcblk_device:s0
-#SEC remove: /dev/block/mmcblk0p4     u:object_r:mmcblk_device:s0
+#SEC remove: /dev/pipe                u:object_r:audio_device:s0
+#SEC remove: /dev/block/mmcblk0p[0-9]* u:object_r:mmcblk_device:s0
 #SEC remove: /dev/block/mmcblk0boot0  u:object_r:mmcblk_device:s0
+#SEC remove: /dev/block/mmcblk0boot1  u:object_r:mmcblk_device:s0
+#SEC remove: /dev/block/mmcblk0p17    u:object_r:mmcblk_device:s0
+#SEC remove: /dev/block/mmcblk0p18    u:object_r:frp_block_device:s0
+#SEC remove: /dev/block/mmcblk0p19    u:object_r:mmcblk_device:s0
+#SEC remove: /dev/block/mmcblk0p21    u:object_r:mmcblk_device:s0
+#SEC remove: /dev/block/mmcblk0p22    u:object_r:mmcblk_device:s0
+#SEC remove: /dev/block/mmcblk0p23    u:object_r:mmcblk_device:s0
+#SEC remove: /dev/block/mmcblk1p1    u:object_r:mmcblk_device:s0
+/dev/sprd_efuse_otp      u:object_r:efuse_device:s0
 /dev/sprd_bm             u:object_r:bm_device:s0
+/dev/fm                  u:object_r:fm_device:s0
+/dev/spipe_lte[0-9]*     u:object_r:spipe_device:s0
+#SEC duplicated : /dev/power_ctl       u:object_r:wcn_device:s0
+/dev/download        u:object_r:wcn_device:s0
+/dev/block/platform/sdio_emmc/by-name/boot  u:object_r:boot_block_device:s0
+/dev/block/platform/sdio_emmc/by-name/recovery  u:object_r:recovery_block_device:s0
+/dev/block/platform/sdio_emmc/by-name/persist  u:object_r:frp_block_device:s0
 
 /dev/slog_w              u:object_r:slog_device:s0
 /dev/sdiag_w             u:object_r:slog_device:s0
 /dev/slog_wcn 		     u:object_r:slog_device:s0
 
+/dev/gnss_download        u:object_r:wcn_device:s0
+/dev/gnss_dbg        u:object_r:wcn_device:s0
+/dev/slog_gnss           u:object_r:slog_device:s0
+/dev/cgxdrv          u:object_r:gps_device:s0
+/dev/ttyV0           u:object_r:gps_device:s0
 
 #SEC remove: /dev/block/mmcblk0p[3-6] u:object_r:nv_mmcblk_device:s0
-/dev/spipe_w[0-9]        u:object_r:spipe_device:s0
+/dev/spipe_w[0-9]*        u:object_r:spipe_device:s0
 /dev/spipe_wcn[0-9]*     u:object_r:spipe_device:s0
 /dev/spipe_lte2          u:object_r:spipe_device:s0
-/dev/spipe_lte9          u:object_r:spipe_device:s0
+/dev/spipe_lte9      u:object_r:modemdriver_vpad_device:s0
 /dev/spipe_lte10          u:object_r:spipe_device:s0
 #############################
 # System files
 #
+/system/bin/data_on.sh  u:object_r:data_on_exec:s0
+/system/bin/data_off.sh u:object_r:data_off_exec:s0
 /system/bin/mplayer     u:object_r:mediaserver_exec:s0
+/system/bin/wcnd     	u:object_r:wcnd_exec:s0
 /system/bin/engpc       u:object_r:engpc_exec:s0
+/system/bin/autotest    u:object_r:autotest_exec:s0
+/system/bin/charge u:object_r:charge_exec:s0
 /system/xbin/zram.sh 	u:object_r:zram_exec:s0
 /system/xbin/srtd    	u:object_r:srtd_exec:s0
 /system/bin/refnotify   u:object_r:refnotify_exec:s0
-/system/bin/modemd u:object_r:rild_exec:s0
+/system/bin/modemd      u:object_r:rild_exec:s0
 /system/bin/phoneserver u:object_r:rild_exec:s0
-/system/bin/modem_control u:object_r:rild_exec:s0
+/system/bin/modem_control u:object_r:modem_control_exec:s0
 /system/bin/rild_sp u:object_r:rild_exec:s0
 /system/bin/cp_diskserver u:object_r:cp_diskserver_exec:s0
+#SEC duplicated : /system/bin/download    u:object_r:download_exec:s0
+/system/bin/gnss_download    u:object_r:gnss_download_exec:s0
+/system/bin/slogmodem	u:object_r:slogmodem_exec:s0
+/system/bin/factorytest u:object_r:factorytest_exec:s0
+/system/bin/phasecheckserver u:object_r:phasecheckserver_exec:s0
+/system/bin/tune2fs       u:object_r:fsck_exec:s0
+/system/bin/resize2fs     u:object_r:fsck_exec:s0
+/system/bin/GPSenseEngine       u:object_r:GPSenseEngine_exec:s0
 
+#SEC duplicated : /system/bin/batterysrv u:object_r:batterysrv_exec:s0
+#SEC duplicatd : /system/bin/gpsd        u:object_r:gpsd_exec:s0
+/system/bin/cmd_services       u:object_r:cmd_services_exec:s0
+/system/bin/modemDriver_vpad_main u:object_r:modemdriver_vpad_exec:s0
 /dev/block/zram0 u:object_r:zram_block_device:s0
 
 /system/bin/nvitemd u:object_r:nvitemd_exec:s0
-/system/bin/wcnd     	u:object_r:wcnd_exec:s0
+
+/data/modem_log(/.*)?	u:object_r:slogmodem_data:s0
+/data/local/englog(/.*)?    u:object_r:engpc_data:s0
+#SEC duplicated : /system/bin/thermald        u:object_r:thermald_exec:s0
 
 ############################
 #for sharkl64
@@ -977,6 +1021,38 @@
 
 # for core dump
 /data/corefile(/.*)?    u:object_r:coredump_file:s0
+
+# for hprofiles
+#SEC duplicated : /data/misc/hprofs(/.*)?   u:object_r:hprofs_file:s0
+
+# CP time synchronization FIFO
+/data/w_timesyncfifo	u:object_r:ts_fifo:s0
+/data/td_timesyncfifo	u:object_r:ts_fifo:s0
+/data/l_timesyncfifo	u:object_r:ts_fifo:s0
+
+#for factorytest
+/data/cg(/.*)? u:object_r:cg_file:s0
+/data/local/factorytest_log(/.*)?    u:object_r:mmitest_file:s0
+#for slog
+/system/bin/slog u:object_r:slogd_exec:s0
+/data/slog(/.*)? u:object_r:slog_file:s0
+
+#add for data/local/media
+/data/local/media(/.*)? u:object_r:media_data_file:s0
+
+# apr files
+/system/bin/collect_apr u:object_r:aprd_exec:s0
+/data/sprdinfo(/.*)? u:object_r:apr_data_file:s0
+/data/apr.conf u:object_r:apr_data_file:s0
+
+# for mlog
+/data/mlog(/.*)? u:object_r:mlog_file:s0
+
+#charge test file
+/data/.battery_nv		u:object_r:self_system_data_file:s0
+
+#GNSS
+/data/gnss(/.*)? u:object_r:gnss_file:s0
 #line 1 "vendor/samsung/common/sepolicy/model/file_contexts"
 ############################# 
 # Device node
@@ -1052,12 +1128,12 @@
 
 /system/bin/batterysrv                 u:object_r:batterysrv_exec:s0
 /system/bin/download                   u:object_r:download_exec:s0
-/system/bin/collect_apr                u:object_r:collect_apr_exec:s0
-/system/bin/slog	u:object_r:slog_exec:s0
+/system/bin/ext_symlink.sh             u:object_r:ext_symlink_exec:s0
 /system/bin/sprd_res_monitor	u:object_r:sprd_res_monitor_exec:s0
 
 
 /dev/pipe(/.*)?                u:object_r:audio_device:s0
+/dev/rpipe(/.*)?                u:object_r:audio_device:s0
 /dev/power_ctl                 u:object_r:power_ctl_device:s0
 
 /data/misc/hprofs(/.*)?	u:object_r:dumplog_data_file:s0
@@ -1144,6 +1220,7 @@
 /dev/p61		u:object_r:sem_device:s0
 /dev/pn547		u:object_r:nfc_device:s0
 /dev/power_on_alarm                                   u:object_r:alarm_device:s0
+/dev/scsc_h4_0                                        u:object_r:serial_device:s0
 /dev/sec-nfc		u:object_r:nfc_device:s0
 /dev/sec-nfc-fn		u:object_r:nfc_device:s0
 /dev/shtc1_sensor	u:object_r:sensor_device:s0
@@ -1160,6 +1237,8 @@
 /dev/socket/msockets(/.*)?	u:object_r:msockets_socket:s0
 /dev/socket/mtp(/.*)?           u:object_r:mtp_socket:s0
 /dev/socket/ppm     u:object_r:epm_socket:s0
+## TG request(simiso.kim, CP team) by email, 6.0.1, New socket to get iptables and tc command from rild to netd
+/dev/socket/qosd     u:object_r:qosd_socket:s0
 /dev/socket/rild[0-9]*	u:object_r:rild_socket:s0
 /dev/socket/rild-debug[0-9]* u:object_r:rild_debug_socket:s0
 /dev/socket/ss_conn_daemon      u:object_r:ss_conn_daemon_socket:s0
@@ -1335,6 +1414,8 @@
 /sys/class/devfreq/exynos5-busfreq-mif(/.*)? -- u:object_r:sysfs_exynos_writable:s0
 /sys/class/graphics/fb[0-9](/.*)?	-- u:object_r:sysfs_graphics:s0
 /sys/class/lcd(/.*)?	-- u:object_r:sysfs_lcd_writable:s0
+/sys/class/leds/moodlight/blink                       u:object_r:sysfs_led_writable:s0
+/sys/class/leds/smartglow/blink                       u:object_r:sysfs_led_writable:s0 
 /sys/class/mdnie(/.*)?	--                 u:object_r:sysfs_mdnie_writable:s0
 /sys/class/mst/mst_ftmdrv/transmit         u:object_r:sysfs_mst_writable:s0
 /sys/class/mstldo/mst_drv/transmit         u:object_r:sysfs_mst_writable:s0
@@ -1360,6 +1441,7 @@
 /sys/class/dsm/maxdsm_cal(/.*)?                --     u:object_r:sysfs_ss_writable:s0
 /sys/class/earsmart/control/always_stream_fs_on       u:object_r:sysfs_ss_writable:s0
 /sys/class/host_notify(/.*)?                   --     u:object_r:sysfs_ss_writable:s0   
+/sys/class/leds/led_[1-4](/.*)?                --     u:object_r:sysfs_led_writable:s0   
 /sys/class/timed_output/vibrator/enable               u:object_r:sysfs_ss_writable:s0   
 /sys/class/ultrasonic/ultrasonic/data                 u:object_r:sysfs_ss_writable:s0 
 /sys/class/usb/otg/test                               u:object_r:sysfs_ss_writable:s0
@@ -1427,6 +1509,7 @@
 /system/bin/imsd	u:object_r:imsd_exec:s0
 /system/bin/ipruleset	u:object_r:ipruleset_exec:s0
 /system/bin/IPSecService	u:object_r:IPSecService_exec:s0
+/system/bin/irisd	u:object_r:irisd_exec:s0
 /system/bin/jackservice		u:object_r:jackservice_exec:s0
 /system/bin/kiesexe	u:object_r:kiesexe_exec:s0
 /system/bin/launcher	u:object_r:launcher_exec:s0
@@ -1443,6 +1526,7 @@
 /system/bin/pppoewrapper        u:object_r:pppoewrapper_exec:s0
 /system/bin/prepare_param\.sh	u:object_r:prepare_param_sh_file:s0
 /system/bin/rtc_log\.sh          u:object_r:rtc_log_sh_file:s0
+/system/bin/redsocks          u:object_r:redsocks_exec:s0
 /system/bin/samsungpowersoundplay	u:object_r:samsungpowersoundplay_exec:s0
 /system/bin/scs			u:object_r:scs_exec:s0
 /system/bin/sdp_cryptod			u:object_r:sdp_cryptod_exec:s0
@@ -1457,9 +1541,12 @@
 /system/bin/sshd	u:object_r:sshd_exec:s0
 /system/bin/taadaemon           u:object_r:tzdaemon_exec:s0
 /system/bin/tzdaemon            u:object_r:tzdaemon_exec:s0
-/system/bin/sysprof	u:object_r:sysprof_exec:s0
 /system/bin/sysmon	u:object_r:sysmon_exec:s0
 /system/bin/tima_dump_log	u:object_r:tima_dump_exec:s0
+
+# for DDC(Dynamic Domain Change)
+/system/bin/trustonic_tee_proxy u:object_r:trustonic_tee_proxy_exec:s0
+
 /system/bin/tlc_server	u:object_r:tlc_server_exec:s0
 /system/bin/tunman	u:object_r:tunman_exec:s0
 /system/bin/otp_server	u:object_r:otp_server_exec:s0
@@ -1569,6 +1656,7 @@
 /data/app-lib(/.*)? 	u:object_r:app_library_file:s0
 /data/app/rpmbd                                       u:object_r:rpmbd_socket:s0
 /data/bcmnfc(/.*)?	u:object_r:nfc_data_file:s0
+/data/bio/ir(/.*)?	                              u:object_r:iris_data_file:s0
 /data/biometrics(/.*)?	                              u:object_r:biometrics_data_file:s0
 #changeBySEA : /data/data/.*		u:object_r:app_data_file:s0
 #/data/data/\.drm(/.*)?	u:object_r:drm_data_file:s0
@@ -1799,6 +1887,9 @@
 # Carrier file of sec_common
 # carrier folder for Sprint(Qualcomm and SLSI)
 /carrier(/.*)?	u:object_r:carrier_file:s0
+
+# OMC_v3(Open Mobile Customization)
+/omr(/.*)?	u:object_r:omr_file:s0
 
 #############################
 # PROC INFO / LOCK FILE
