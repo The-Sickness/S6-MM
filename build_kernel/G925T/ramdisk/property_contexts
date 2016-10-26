@@ -90,6 +90,8 @@ ctl.netmgrd                u:object_r:ctl_netmgrd_prop:s0
 ctl.port-bridge            u:object_r:ctl_port-bridge_prop:s0
 ctl.perfd                  u:object_r:perfd_prop:s0
 ctl.iop                    u:object_r:perfd_prop:s0
+ctl.vm_bms                 u:object_r:vm_bms_prop:s0
+##SEC removed dup context : qualcomm.bluetooth.        u:object_r:bluetooth_prop:s0
 ctl.ipacm                  u:object_r:ipacm_prop:s0
 ctl.ipacm-diag             u:object_r:ipacm-diag_prop:s0
 ctl.qti                    u:object_r:qti_prop:s0
@@ -107,6 +109,10 @@ location.                  u:object_r:location_prop:s0
 persist.rmnet.mux          u:object_r:rmnet_mux_prop:s0
 qemu.hw.mainkeys           u:object_r:qemu_hw_mainkeys_prop:s0
 dbg.coresight.cfg_file     u:object_r:coresight_prop:s0
+ctl.hbtp                   u:object_r:ctl_hbtp_prop:s0
+sys.audio.init             u:object_r:audio_prop:s0
+alarm_boot                 u:object_r:alarm_boot_prop:s0
+debug.sf.nobootanimation   u:object_r:boot_animation_prop:s0
 #line 1 "vendor/samsung/common/sepolicy/BSP/bsp_qcom_v2/qcom_common/property_contexts"
 qualcomm.bt.               u:object_r:qcom_bt_prop:s0
 usb_uicc.                  u:object_r:uicc_prop:s0
@@ -118,6 +124,33 @@ usb_uicc.                  u:object_r:uicc_prop:s0
 # avc:  denied  { set } for property=usb_uicc.enabled scontext=u:r:usb_uicc_daemon:s0 tcontext=u:object_r:default_prop:s0 tclass=property_service
 # avc:  denied  { set } for property=usb_uicc.loading scontext=u:r:init_shell:s0 tcontext=u:object_r:default_prop:s0 tclass=property_service
 # avc:  denied  { set } for property=config.zram scontext=u:r:init_shell:s0 tcontext=u:object_r:default_prop:s0 tclass=property_service
+
+#line 1 "vendor/samsung/common/sepolicy/BSP/bsp_sprd/property_contexts"
+##########################
+# property service keys
+#
+#
+
+persist.msms.           u:object_r:radio_prop:s0
+
+media.dump.switch u:object_r:media_prop:s0
+media.dump.path u:object_r:media_prop:s0
+volte.incall.camera.enable u:object_r:media_prop:s0
+persist.volte.cmr.fps u:object_r:media_prop:s0
+
+
+persist.storage         u:object_r:storage_prop:s0
+sys.internal.emulated   u:object_r:storage_prop:s0
+
+slog.reload                u:object_r:slog_prop:s0
+slog.step              u:object_r:slog_prop:s0
+slog.top_logdir u:object_r:slog_prop:s0
+
+flag.apr.bootmode u:object_r:apr_prop:s0
+
+#add for MSR test
+com.sprd.szsde.running  u:object_r:system_prop:s0
+com.sprd.szsde.reboot  u:object_r:system_prop:s0
 
 #line 1 "vendor/samsung/common/sepolicy/model/property_contexts"
 ############ aosp and sec_common #############
@@ -178,6 +211,7 @@ csc.sales_code	u:object_r:csc_prop:s0
 persist.csc.nosimlanguage	u:object_r:csc_prop:s0
 persist.csc.nosimcountry	u:object_r:csc_prop:s0
 com.google.clientidbase.    u:object_r:csc_prop:s0
+ctl.redsocks             u:object_r:ctl_redsocks_prop:s0
 ctl.sdumpstate           u:object_r:ctl_dumpstate_prop:s0
 call.              u:object_r:radio_prop:s0
 cdma.home.operator.		u:object_r:radio_prop:s0
@@ -187,6 +221,7 @@ dev.kiessupport		u:object_r:kies_prop:s0
 diag.oriented		u:object_r:system_prop:s0
 frp.pst                 u:object_r:frppath_prop:s0
 home.operator.		u:object_r:radio_prop:s0
+hwui.                                       u:object_r:hwui_prop:s0
 installd.sdcard_manipulate_done	u:object_r:sdcard_prop:s0
 oneseg.                                     u:object_r:oneseg_prop:s0
 partition.system.               u:object_r:system_prop:s0
@@ -218,6 +253,7 @@ setupwizard.                    u:object_r:setupwizard_prop:s0
 sys.dumpstate.                  u:object_r:dumpstate_prop:s0
 sys.mobicoredaemon.          u:object_r:mobicore_prop:s0
 sys.mobicore.                    u:object_r:mobicore_prop:s0
+sys.reset_reason                            u:object_r:etc_debug_prop:s0
 sys.tzdaemon                    u:object_r:tzdaemon_prop:s0
 vpnclientpm.	u:object_r:vpn_prop:s0
 vpn.status	u:object_r:vpn_prop:s0

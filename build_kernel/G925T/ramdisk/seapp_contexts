@@ -22,10 +22,10 @@ user=_app seinfo=shared domain=sec_untrusted_app type=app_data_file levelFrom=us
 user=_app seinfo=release name=com.samsung.android.app.memo domain=sec_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=release name=com.android.mms domain=sec_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=media domain=sec_untrusted_app type=app_data_file levelFrom=user
-user=shell seinfo=platform name=com.sec.android.gotrace domain=platform_app type=app_data_file levelFrom=user
 user=msgcom seinfo=platform domain=platform_app type=app_data_file levelFrom=user
 user=sendhelpmsg seinfo=platform domain=platform_app type=app_data_file levelFrom=user
 user=cmhservice seinfo=platform domain=platform_app type=app_data_file levelFrom=user
+user=_app seinfo=platform name=com.samsung.aasaservice domain=sysaccess_platform_app type=aasa_app_data_file levelFrom=user
 user=asf_fileshare seinfo=platform domain=platform_app type=app_data_file levelFrom=user
 user=asf_mediashare seinfo=platform domain=platform_app type=app_data_file levelFrom=user
 user=bcmgr seinfo=platform domain=platform_app type=app_data_file levelFrom=user
@@ -35,6 +35,8 @@ user=intelligenceservice seinfo=platform domain=platform_app type=app_data_file 
 user=enhanced_features seinfo=platform domain=platform_app type=app_data_file levelFrom=user
 user=smds seinfo=platform domain=platform_app type=app_data_file levelFrom=user
 user=nsflp seinfo=platform domain=platform_app type=app_data_file levelFrom=user
+user=wechatwifiservice seinfo=platform domain=platform_app type=app_data_file levelFrom=user
+user=fresco seinfo=platform domain=platform_app type=app_data_file levelFrom=user
 user=_app seinfo=spay domain=platform_app type=platform_app_data_file levelFrom=user
 user=spay seinfo=spay domain=platform_app type=platform_app_data_file
 user=system seinfo=spay domain=platform_app type=platform_app_data_file
@@ -50,11 +52,14 @@ user=_app seinfo=aasa_platform domain=aasa_platform_app type=app_data_file level
 user=_app seinfo=vmware domain=vmware_app type=app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=com.expway.embmsserver* domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=com.jio.emiddleware domain=filtered_untrusted_app type=app_data_file levelFrom=user
+user=_app seinfo=Reliance_Jio domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=spr_ext name=com.kineto.smartwifi domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=trusted_dmb name=com.omnitel* domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=com.visionobjects.resourcemanager domain=filtered_untrusted_app type=filtered_app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=com.myscript.atk.rmc.service.sample domain=filtered_untrusted_app type=filtered_app_data_file levelFrom=user
 user=_app seinfo=filtered_untrusted name=jp.co.fsi.* domain=filtered_untrusted_app type=filtered_app_data_file levelFrom=user
+user=_app seinfo=filtered_untrusted name=com.kddi.android.evc domain=filtered_untrusted_app type=app_data_file levelFrom=user
+user=_app seinfo=filtered_untrusted name=com.kddi.test.enhancedvoicecallpftest domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=sprintitson domain=itsonclient_app type=itsonapp_data_file levelFrom=user
 user=itson seinfo=sprintitson domain=itsonclient_app type=itsonapp_data_file levelFrom=user
 user=sprintitson seinfo=sprintitson domain=itsonclient_app type=itsonapp_data_file levelFrom=user
@@ -82,6 +87,10 @@ user=_app seinfo=teamviewer domain=mrst_untrusted_app type=app_data_file levelFr
 user=_app seinfo=platform name=com.teamviewer.quicksupport.addon.samsung domain=mrst_plugin_app type=app_data_file levelFrom=user
 user=_app seinfo=wisemo domain=mrst_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=platform name=com.wisemo.rcbridge.samsung1 domain=mrst_plugin_app type=app_data_file levelFrom=user
+user=system seinfo=platform name=com.android.power domain=blocked_app type=system_app_data_file
+user=system seinfo=platform name=com.android.sms domain=blocked_app type=system_app_data_file
+user=_app seinfo=platform name=com.android.power domain=blocked_app type=app_data_file
+user=_app seinfo=platform name=com.android.sms domain=blocked_app type=app_data_file
 user=_app seinfo=tmosimlock name=com.tmobile.simlock domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=tmosimlock name=com.metro.simlock domain=filtered_untrusted_app type=app_data_file levelFrom=user
 user=_app seinfo=llk_untrusted name=com.customermobile.preload.main2 domain=llk_untrusted_app type=app_data_file levelFrom=user

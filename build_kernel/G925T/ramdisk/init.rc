@@ -14,7 +14,6 @@ import /init.carrier.rc
 import /init.sec_debug.rc
 import /init.container.rc
 import /init.rilcommon.rc
-import /init.twisted.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -67,8 +66,6 @@ on init
 
     mkdir /.system
     mkdir /system
-    mkdir /su 0755 root root # create mount point for SuperSU
-    # HRT-KERNEL-SU
     mkdir /data 0771 system system
     mkdir /cache 0770 system cache
     mkdir /config 0500 root root
@@ -140,7 +137,7 @@ on init
     write /proc/sys/kernel/sched_compat_yield 1
     write /proc/sys/kernel/sched_child_runs_first 0
 
-    write /proc/sys/kernel/randomize_va_space 0
+    write /proc/sys/kernel/randomize_va_space 2
     write /proc/sys/kernel/kptr_restrict 2
     write /proc/sys/vm/mmap_min_addr 32768
     write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
@@ -574,7 +571,7 @@ on post-fs-data
 
     # Separate location for storing security policy files on data    
     #start SEC_PRODUCT_FEATURE_COMMON_SUPPORT_SE_FOR_ANDROID 
-    mkdir /data/security 0700 system system
+    mkdir /data/security 0710 system system_access
     #end SEC_PRODUCT_FEATURE_COMMON_SUPPORT_SE_FOR_ANDROID
     
     # We restorecon /data when file_contexts is changed(SPD, FOTA, HOME)
@@ -605,7 +602,7 @@ on boot
     # parameters to match how it is managing things.
     write /proc/sys/vm/overcommit_memory 1
     write /proc/sys/vm/min_free_order_shift 4
-    chown root root /sys/module/lowmemorykiller/parameters/adj
+    chown root system /sys/module/lowmemorykiller/parameters/adj
     chmod 0220 /sys/module/lowmemorykiller/parameters/adj
     chown root system /sys/module/lowmemorykiller/parameters/minfree
     chmod 0220 /sys/module/lowmemorykiller/parameters/minfree
@@ -659,30 +656,63 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
 
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/multi_enter_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_enter_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/multi_enter_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_enter_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/multi_exit_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_exit_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/multi_exit_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_exit_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_enter_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_enter_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_enter_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_enter_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_exit_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_exit_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_exit_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_exit_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/mode
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/mode
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/enforced_mode
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/enforced_mode
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/param_index
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/param_index
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/cpu_util
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/cpu_util
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_enter_load
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_enter_load
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_enter_time
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_enter_time
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_exit_load
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_exit_load
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_exit_time
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_exit_time
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_enter_load
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_enter_load
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_enter_time
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_enter_time
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_exit_load
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_exit_load
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_exit_time
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_exit_time
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/mode
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/mode
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/enforced_mode
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/enforced_mode
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/param_index
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/param_index
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/cpu_util
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/cpu_util
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_cluster0_min_freq
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/multi_cluster0_min_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_cluster0_min_freq
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/interactive/single_cluster0_min_freq
+
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_enter_load
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_enter_load
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_enter_time
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_enter_time
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_exit_load
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_exit_load
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_exit_time
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_exit_time
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_enter_load
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_enter_load
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_enter_time
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_enter_time
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_exit_load
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_exit_load
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_exit_time
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_exit_time
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/mode
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/mode
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/enforced_mode
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/enforced_mode
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/param_index
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/param_index
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/cpu_util
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/cpu_util
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_cluster0_min_freq
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/multi_cluster0_min_freq
+    chown system system /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_cluster0_min_freq
+    chmod 0660 /sys/devices/system/cpu/cpu4/cpufreq/interactive/single_cluster0_min_freq
 
 
     # Change permission for dvfshelper
@@ -749,8 +779,8 @@ on boot
     export MC_AUTH_TOKEN_PATH /efs
 
     # Assume SMP uses shared cpufreq policy for all CPUs
-    chown root root /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chmod 0640 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/timed_output/vibrator/intensity		
@@ -985,6 +1015,9 @@ on boot
     chown system usb /sys/class/usb_notify/usb_control/disable
     chmod 0664 /sys/class/usb_notify/usb_control/disable
 
+    write /sys/block/mmcblk0/queue/scheduler noop
+    write /sys/block/sda/queue/scheduler noop
+
     copy /system/etc/battery_charging_temp.data /sys/class/power_supply/battery/batt_temp_table
 
     class_start core
@@ -1051,6 +1084,8 @@ on property:selinux.reload_policy=1
 # SEC_SELINUX
 on property:selinux.sec.restorecon=1
     restorecon_msc -RF /data
+    chown system system_access /data/security/aasa
+    chmod 2750 /data/security/aasa
 
 on property:sys.powerctl=*
     powerctl ${sys.powerctl}
@@ -1077,7 +1112,7 @@ on property:sys.sysctl.tcp_def_init_rwnd=*
     write /proc/sys/net/ipv4/tcp_default_init_rwnd ${sys.sysctl.tcp_def_init_rwnd}
 
 
-on property:init.svc.bootanim=stopped
+on property:sys.boot_completed=1
     start auditd
 
 # Reload SE Android Policy for MDM
@@ -1361,12 +1396,12 @@ service media /system/bin/mediaserver
 service apaservice /system/bin/apaservice
     class main
     user jack
-    group system inet sdcard_rw sdcard_r media_rw shell
+    group inet sdcard_rw sdcard_r media_rw shell
 
 service jackservice /system/bin/jackservice
     class main
     user jack
-    group system audio inet shell
+    group audio inet shell
     
 # One shot invocation to deal with encrypted volume.
 service defaultcrypto /system/bin/vdc --wait cryptfs mountdefaultencrypted
@@ -1577,6 +1612,8 @@ service auditd /system/bin/auditd -k
     oneshot
 
 on property:sys.boot_completed=1
+    write /sys/block/mmcblk0/queue/scheduler cfq
+    write /sys/block/sda/queue/scheduler cfq
 	chown system system /sys/class/net/wlan0/queues/rx-0/rps_cpus
 
 # icd
@@ -1615,16 +1652,3 @@ on property:service.vpnclientd.enable=0
 # Reactivation lock
 	service reactived /system/bin/reactived
 	class late_start
- 
-# Sick.Sh Activation 
-service sickness-init /sbin/sick.sh
-    class core
-    user root
-    oneshot
-
-# init.d support enabler
-service sysinit /system/bin/logwrapper /system/xbin/busybox run-parts /system/etc/init.d
-    class late_start
-    user root
-    group shell
-    oneshot    
