@@ -24,8 +24,8 @@ package_extract_file("sickness/boot.img", "/dev/block/platform/15570000.ufs/by-n
 
 ui_print(" ");
 package_extract_dir("supersu", "/tmp/supersu");
-run_program("/sbin/busybox", "unzip", "/tmp/supersu/BETA-SuperSU-v2.74.zip", "META-INF/com/google/android/*", "-d", "/tmp/supersu");
-run_program("/sbin/busybox", "sh", "/tmp/supersu/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/supersu/BETA-SuperSU-v2.74.zip");
+run_program("/sbin/busybox", "unzip", "/tmp/supersu/SR1-SuperSU-v2.78.zip", "META-INF/com/google/android/*", "-d", "/tmp/supersu");
+run_program("/sbin/busybox", "sh", "/tmp/supersu/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/supersu/SR1-SuperSU-v2.78.zip");
 
 ui_print(" ");
 ui_print("Clean up busybox & applets...");
