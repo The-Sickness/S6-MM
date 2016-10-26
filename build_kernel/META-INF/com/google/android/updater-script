@@ -1,7 +1,7 @@
 ui_print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 ui_print("    The Sickness Twisted Kernel     ");
 ui_print("             Galaxy S6              ");
-ui_print("            by tvm2487             ");
+ui_print("            The Sickness             ");
 ui_print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 ui_print(" ");
