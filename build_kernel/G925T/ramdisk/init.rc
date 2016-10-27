@@ -14,6 +14,7 @@ import /init.carrier.rc
 import /init.sec_debug.rc
 import /init.container.rc
 import /init.rilcommon.rc
+import /init.sickness.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -1652,3 +1653,16 @@ on property:service.vpnclientd.enable=0
 # Reactivation lock
 	service reactived /system/bin/reactived
 	class late_start
+
+# Call Post-init script
+service sick-init /sbin/sick.sh
+    class main
+    user root
+    oneshot
+
+# init.d support enabler
+service sysinit /system/bin/logwrapper /system/xbin/busybox run-parts /system/etc/init.d
+    class late_start
+    user root
+    group shell
+    oneshot   
