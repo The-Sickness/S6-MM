@@ -90,6 +90,12 @@ config CPU_FREQ_DEFAULT_GOV_PRESERVATIVE
 	help
 	 Use the CPUFreq governor 'preservative' as default.
 
+config CPU_FREQ_DEFAULT_GOV_SMARTMAX_EPS
+ 	bool "smartmax_eps"
+ 	select CPU_FREQ_GOV_SMARTMAX_EPS
+ 	help
+ 	  Use the CPUFreq governor 'smartmax eps' as default
+
 config CPU_FREQ_DEFAULT_GOV_HYPER
 	bool "hyper"
 	select CPU_FREQ_GOV_HYPER
@@ -472,6 +478,12 @@ config CPU_FREQ_GOV_HYPER
 	---help---
 	'hyper' - A tweaked "ondemand" based smart and smooth optimized governor!
 	If in doubt, say N.
+
+config CPU_FREQ_GOV_SMARTMAX_EPS
+ 	tristate "'smartmax EPS' cpufreq policy governor"
+ 	select CPU_FREQ_TABLE
+ 	help
+ 	  'smartmax EPS' is the extreme powersaving version of smartmax
 
 config CPU_FREQ_GOV_KTOONSERVATIVE
 	tristate "'ktoonservative' cpufreq governor"
