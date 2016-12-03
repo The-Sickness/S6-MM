@@ -1,0 +1,42 @@
+#!/system/bin/sh
+
+cat << CTAG
+{
+    name:SCREEN,
+    elements:[
+	{ SLiveLabel:{
+		title:"Display brightness",
+		description:"Live panel brightness value 0-255",
+		refresh:500,
+		action:"live actual_brightness"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Sweep-2-Sleep",
+		description:"Allows you to turn the screen off by swiping the screen just above the HOME key from right > left (or) left > right."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SDescription:{
+		description:"NOTE: Ensure PowerSuspend 'State' is DISABLED"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SOptionList:{
+		description:"Default is Disabled.\n",
+		default:0,
+		action:"generic /sys/sweep2sleep/sweep2sleep",
+		values:{
+			0:"Disabled", 1:"Enabled"
+		}
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+    ]
+}
+CTAG

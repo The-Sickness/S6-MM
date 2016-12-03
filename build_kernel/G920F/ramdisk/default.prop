@@ -1,0 +1,61 @@
+Making some changes first...found some shit
+#
+# ADDITIONAL_DEFAULT_PROPERTIES
+#
+telephony.lteOnCdmaDevice=0
+persist.eons.enabled=true
+rild.libpath=/system/lib64/libsec-ril.so
+rild.libpath2=/system/lib64/libsec-ril-dsds.so
+persist.security.ams.enforcing=0
+ro.secure=0
+ro.allow.mock.location=0
+ro.debuggable=0
+ro.adb.secure=1
+persist.sys.usb.config=mtp,adb
+ro.zygote=zygote64_32
+dalvik.vm.image-dex2oat-Xms=64m
+dalvik.vm.image-dex2oat-Xmx=64m
+dalvik.vm.dex2oat-Xms=64m
+dalvik.vm.dex2oat-Xmx=512m
+ro.dalvik.vm.native.bridge=0
+debug.atrace.tags.enableflags=0
+persist.cne.feature=0
+
+# Ram Managemnt
+
+ro.config.dha_cached_max=15
+ro.config.dha_cached_min=12
+ro.config.dha_empty_max=36
+ro.config.dha_empty_min=9
+ro.config.dha_empty_init=36
+ro.config.dha_update_max_count=5
+ro.config.dha_step=2
+ro.config.dha_th_rate=1.4
+ro.config.dha_defend_th_level=0
+ro.config.64bit_lmk_enable=true
+ro.config.sdha_apps_bg_max=70
+ro.config.sdha_apps_bg_min=8
+ro.config.dha_ils_enable=true
+ro.config.dha_ils_dyna_lmk=true
+ro.config.dha_ils_rate=1.5
+ro.config.dha_lmk_scale=1
+sys.config.spcm_db_launcher=false
+sys.config.spcm_preload_enable=false
+sys.config.samp_spcm_enable=false
+sys.config.spcm_db_enable=false
+
+# Kernel Tweaks
+
+ro.config.tima=0
+ro.config.knox=0
+androidboot.selinux=0
+ro.securestorage.knox=false
+ro.securestorage.support=false
+ro.security.mdpp.ux=Disabled
+wlan.wfd.hdcp=disable
+#
+# BOOTIMAGE_BUILD_PROPERTIES
+#
+ro.bootimage.build.date=Mon Sep 19 12:17:27 KST 2016
+ro.bootimage.build.date.utc=1474255047
+ro.bootimage.build.fingerprint=samsung/zerofltexx/zeroflte:6.0.1/MMB29K/G920FXXS4DPIJ:user/test-keys

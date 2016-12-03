@@ -1,0 +1,57 @@
+#!/system/bin/sh
+
+cat << CTAG
+{
+    name:"ABOUT",
+    elements:[
+	{ SLiveLabel:{
+		description:"\n",
+		refresh:10000000,
+		action:"echo Welcome to"
+	}},
+	{ SLiveLabel:{
+		refresh:10000000,
+		style:"bold",
+		action:"echo The Twisted Kernel !"
+	}},
+	{ SLiveLabel:{
+		refresh:10000000,
+		action:"echo by"
+	}},
+	{ SLiveLabel:{
+		refresh:10000000,
+		style:"bold",
+		action:"echo The Sickness"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"PayPal Donation",
+		action:"am start -a android.intent.action.VIEW -d > /dev/null;
+		echo Opening browser...;"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"Twisted Kernel thread @ XDA-Developers",
+		action:"am start -a android.intent.action.VIEW -d http://forum.xda-developers.com/tmobile-galaxy-s6/orig-development/kernels-twisted-kernel-6-0-1-mm-5-11-16-t3377283 > /dev/null;
+		echo Opening browser...;"
+	}},
+	{ SSpacer:{
+		height:2
+	}},
+	{ SPane:{
+		title:"Up Time:"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SLiveLabel:{
+		refresh:1500,
+		action:"live LiveUpTime"
+	}},
+    ]
+}
+CTAG

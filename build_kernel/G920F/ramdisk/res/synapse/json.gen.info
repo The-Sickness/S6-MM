@@ -1,0 +1,149 @@
+#!/system/bin/sh
+
+cat << CTAG
+{
+    name:INFO,
+    elements:[
+	{ SPane:{
+		title:"Kernel Build by",
+		description:"<a href='http://forum.xda-developers.com/member.php?u=4921688'>The Sickness</a>."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Kernel Thread",
+		description:"<a href='http://forum.xda-developers.com/tmobile-galaxy-s6/orig-development/kernels-twisted-kernel-6-0-1-mm-5-11-16-t3377283'>XDA</a>"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Source",
+		description:"Modified & compiled from Samsung OSRC: <a href='https://github.com/The-Sickness/S6-MM'>GitHub</a>."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Special Thanks to"
+	}},
+	{ SDescription:{
+		description:"All Devs that inspire me to cherry-pick from and allow me to adapt to this kernel. In particular, AndreiLux and halaszk88<a href=''></a>"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"NO Thanks to"
+	}},
+	{ SDescription:{
+		description:"All haters...<a href=''></a>"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"ASV Summary",
+		description:"Values: from 0 (Lowest) to 15 (Highest). The higher the ASV, the higher frequencies your device can run and lower voltages"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"show asv"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Kernel Version"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default version"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Build"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default build"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Android Version"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default android_version"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Build Date"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default date"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Baseband"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default baseband"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Bootloader"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default bootloader"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Busybox Version"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default busybox_version"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Superuser Version"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default su_version"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"Serial"
+	}},
+	{ SLiveLabel:{
+		refresh:10000,
+		action:"default serial"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+    ]
+}
+CTAG

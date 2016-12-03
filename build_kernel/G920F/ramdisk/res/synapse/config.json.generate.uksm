@@ -1,0 +1,81 @@
+#!/system/xbin/busybox sh
+
+BB=/system/xbin/busybox;
+
+cat << CTAG
+{
+    name:UKSM,
+    elements:[
+	{ SPane:{
+		title:"Ultra Kernel SamePage Merging (UKSM)"
+	}},
+	{ SDescription:{
+		description:" Transparently scans and merges memory (duplicated pages) at a significantly improved scan speed & CPU efficiency over stock KSM."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SCheckBox:{
+		description:" Enabling UKSM will merge some memory to give a slight performance bump, but at the cost of a very small CPU load which could have a minor impact on battery life. Default is Disabled.\n",
+		label:"Enable UKSM",
+       	 	default:`cat /sys/kernel/mm/uksm/run`,
+		action:"generic /sys/kernel/mm/uksm/run"
+    	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SLiveLabel:{
+                title:"UKSM stats",
+		description:" Memory samepage merging is not a quick process, so stats may initially show 0 MB.",
+		refresh:3000,
+		action:"live UKSMStats"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SSeekBar:{
+		title:"Scan Delay Interval",
+		description:" Set how long the daemon sleeps before it wakes up and starts scanning memory pages. Default is 100.\n",
+		unit:" ms",
+		step:100,
+		min:0,
+		max:1500,
+       	 	default:`cat /sys/kernel/mm/uksm/sleep_millisecs`,
+		action:"generic /sys/kernel/mm/uksm/sleep_millisecs"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SOptionList:{
+		title:"UKSM CPU Governor",
+		description:" Controls how aggressively the daemon uses CPU power. This sets a preset for the maximum CPU consumption below.\n\n full = scaling 10>99 %\n medium = fixed 50 %\n low = fixed 20 %\n quiet = fixed 10 %\n",
+		default:`cat /sys/kernel/mm/uksm/cpu_governor | busybox awk 'NR>1{print $1}' RS=[ FS=]`,
+		action:"UKSM_gov /sys/kernel/mm/uksm/cpu_governor",
+		values:[`while read values; do busybox printf "%s, \n" $values | busybox tr -d '[]'; done < /sys/kernel/mm/uksm/cpu_governor`],
+						notify:[
+							{
+								on:APPLY,
+								do:[ REFRESH, APPLY ],
+								to:"generic /sys/kernel/mm/uksm/max_cpu_percentage"
+							},
+						]
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SSeekBar:{
+		title:"Max CPU Consumption",
+		description:" The maximum CPU consumption the daemon will use while scanning. Higher = better scanning (more battery drain). You must set the above governor to FULL to use CPU percentage scaling.\n",
+		unit:" %",
+		step:1,
+		min:10,
+		max:99,
+       	 	default:`cat /sys/kernel/mm/uksm/max_cpu_percentage`,
+		action:"generic /sys/kernel/mm/uksm/max_cpu_percentage"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+    ]
+}
+CTAG
