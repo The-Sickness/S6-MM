@@ -644,6 +644,12 @@ void __ref enable_nonboot_cpus(void)
 	cpumask_clear(frozen_cpus);
 out:
 	cpu_maps_update_done();
+
+        if (is_woken_by_button) {
+ 		is_woken_by_button = false;
+ 		for_each_possible_cpu(cpu)
+ 			cpu_up(cpu);
+        }
 }
 
 static int __init alloc_frozen_cpus(void)
