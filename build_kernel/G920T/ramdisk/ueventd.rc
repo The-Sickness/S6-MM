@@ -99,8 +99,8 @@ subsystem adf
 /sys/devices/virtual/input/input*   poll_delay  0660  root   input
 /sys/devices/virtual/input/input*   name        0440  root   input
 /sys/devices/virtual/usb_composite/*   enable      0664  root   system
-/sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0640  root root
-/sys/devices/system/cpu/cpu*   cpufreq/scaling_min_freq   0640  root root
+/sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0664  system system
+/sys/devices/system/cpu/cpu*   cpufreq/scaling_min_freq   0664  system system
 
 # DVB API device nodes
 /dev/dvb*                 0660   root       system

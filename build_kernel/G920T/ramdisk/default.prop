@@ -55,6 +55,6 @@ wlan.wfd.hdcp=disable
 #
 # BOOTIMAGE_BUILD_PROPERTIES
 #
-ro.bootimage.build.date=Fri Aug 5 15:52:49 KST 2016
-ro.bootimage.build.date.utc=1470379969
-ro.bootimage.build.fingerprint=samsung/zerofltetmo/zerofltetmo:6.0.1/MMB29K/G920TUVS4EPH2:user/test-keys
+ro.bootimage.build.date=Wed Nov 16 21:04:53 KST 2016
+ro.bootimage.build.date.utc=1479297893
+ro.bootimage.build.fingerprint=samsung/zerofltetmo/zerofltetmo:6.0.1/MMB29K/G920TUVU5EPK5:user/test-keys
