@@ -1,0 +1,10 @@
+--- crypto/blkcipher.c
++++ crypto/blkcipher.c
+@@ -252,7 +254,6 @@ static int blkcipher_walk_next(struct blkcipher_desc *desc,
+ 		}
+ 	}
+ 
+-	bsize = min(walk->blocksize, n);
+ 	n = scatterwalk_clamp(&walk->in, n);
+ 	n = scatterwalk_clamp(&walk->out, n);
+ 
